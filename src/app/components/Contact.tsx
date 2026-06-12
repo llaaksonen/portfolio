@@ -1,0 +1,181 @@
+import { Send } from "lucide-react";
+import { content } from "../../content";
+import { getIcon } from "../../content/icons";
+
+const { contact } = content;
+
+export function Contact() {
+  return (
+    <section
+      id="contact"
+      className="py-28 px-6"
+      style={{ background: "var(--secondary)" }}
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="max-w-xl mx-auto text-center mb-16">
+          <p
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: "#a78bfa",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            {contact.eyebrow}
+          </p>
+          <h2
+            className="mb-5 leading-tight"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 4vw, 2.8rem)",
+              fontWeight: 800,
+              color: "var(--foreground)",
+              letterSpacing: "-0.035em",
+              lineHeight: 1.15,
+            }}
+          >
+            {contact.headingPrefix}{" "}
+            <span
+              style={{
+                background:
+                  "linear-gradient(90deg, #a78bfa 0%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              {contact.headingAccent}
+            </span>
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.95rem",
+              color: "var(--muted-foreground)",
+              lineHeight: 1.8,
+            }}
+          >
+            {contact.intro}
+          </p>
+        </div>
+
+        {/* Channel cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+          {contact.channels.map((channel) => {
+            const Icon = getIcon(channel.icon);
+            const { label, value, href, desc, color, glow } = channel;
+            return (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl transition-all duration-250 group"
+              style={{
+                background: "var(--card)",
+                border: "1px solid var(--border)",
+                textDecoration: "none",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = `${color}44`;
+                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 28px ${glow}`;
+                (e.currentTarget as HTMLElement).style.transform =
+                  "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--border)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                (e.currentTarget as HTMLElement).style.transform =
+                  "translateY(0)";
+              }}
+            >
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all duration-200"
+                style={{
+                  background: `${color}14`,
+                  border: `1px solid ${color}22`,
+                  color,
+                }}
+              >
+                <Icon size={18} />
+              </div>
+              <p
+                className="mb-0.5"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  color: "var(--muted-foreground)",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {label}
+              </p>
+              <p
+                className="mb-2"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.875rem",
+                  fontWeight: 600,
+                  color: "var(--foreground)",
+                }}
+              >
+                {value}
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.78rem",
+                  color: "var(--muted-foreground)",
+                  lineHeight: 1.55,
+                }}
+              >
+                {desc}
+              </p>
+            </a>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <a
+            href={contact.cta.href}
+            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl transition-all duration-200"
+            style={{
+              background:
+                "linear-gradient(135deg, #7c3aed 0%, #9d4edd 100%)",
+              color: "#fff",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 600,
+              fontSize: "0.95rem",
+              boxShadow: "0 0 28px rgba(124,58,237,0.4)",
+              textDecoration: "none",
+              letterSpacing: "0.01em",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.boxShadow =
+                "0 0 44px rgba(124,58,237,0.65)";
+              (e.currentTarget as HTMLElement).style.transform =
+                "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.boxShadow =
+                "0 0 28px rgba(124,58,237,0.4)";
+              (e.currentTarget as HTMLElement).style.transform =
+                "translateY(0)";
+            }}
+          >
+            <Send size={17} />
+            {contact.cta.label}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,148 @@
+{
+  "brand": "Your.dev",
+  "social": {
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourusername",
+    "email": "you@example.com"
+  },
+  "nav": {
+    "links": [
+      { "label": "About", "href": "#about" },
+      { "label": "Projects", "href": "#projects" },
+      { "label": "Skills", "href": "#skills" },
+      { "label": "Experience", "href": "#experience" },
+      { "label": "Contact", "href": "#contact" }
+    ],
+    "cta": "Hire Me"
+  },
+  "hero": {
+    "badge": "Open to work",
+    "name": "Your Name",
+    "titles": ["Software Developer", "Cloud-Oriented"],
+    "intro": "Short one-line intro about what you build and what drives you.",
+    "primaryCta": { "label": "View Projects", "href": "#projects" },
+    "secondaryCta": { "label": "Contact Me", "href": "#contact" }
+  },
+  "about": {
+    "eyebrow": "About Me",
+    "headingLine1": "Building skills,",
+    "headingAccent": "one project at a time",
+    "paragraphs": [
+      "First paragraph about who you are and where you're at.",
+      "Second paragraph about your background and current focus.",
+      "Third paragraph about how you work and what motivates you."
+    ],
+    "pills": ["📍 Open to Remote", "💼 Junior Roles", "☁️ Cloud-Interested"],
+    "traits": [
+      {
+        "icon": "Code2",
+        "title": "Frontend Foundations",
+        "desc": "Short description of this strength."
+      },
+      {
+        "icon": "Cloud",
+        "title": "Cloud Curious",
+        "desc": "Short description of this strength."
+      },
+      {
+        "icon": "BookOpen",
+        "title": "Always Learning",
+        "desc": "Short description of this strength."
+      },
+      {
+        "icon": "Cpu",
+        "title": "Systems Roots",
+        "desc": "Short description of this strength."
+      }
+    ]
+  },
+  "projects": {
+    "eyebrow": "Work",
+    "heading": "Featured Projects",
+    "items": [
+      {
+        "name": "Example Project",
+        "description": "What it does, what you built it with, and what you learned.",
+        "tags": ["React", "TypeScript"],
+        "github": "https://github.com/yourusername/example",
+        "demo": null,
+        "stars": 0,
+        "highlight": true
+      }
+    ]
+  },
+  "skills": {
+    "eyebrow": "Tech Stack",
+    "heading": "Technologies I work with",
+    "groups": [
+      {
+        "category": "Frontend",
+        "description": "Building UIs and web experiences",
+        "skills": [{ "name": "React", "icon": "⚛️", "level": "learning" }]
+      }
+    ]
+  },
+  "experience": {
+    "eyebrow": "Background",
+    "heading": "Experience & Education",
+    "timeline": [
+      {
+        "type": "work",
+        "role": "Your Role",
+        "org": "Company",
+        "period": "2025 – Present",
+        "location": "Remote",
+        "highlight": "",
+        "bullets": ["What you do / did here."]
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Get In Touch",
+    "headingPrefix": "Let's talk about",
+    "headingAccent": "opportunities",
+    "intro": "What kind of roles or conversations you're open to.",
+    "channels": [
+      {
+        "icon": "Mail",
+        "label": "Email",
+        "value": "you@example.com",
+        "href": "mailto:you@example.com",
+        "desc": "Best for introductions and project conversations.",
+        "color": "#f472b6",
+        "glow": "rgba(244,114,182,0.15)"
+      },
+      {
+        "icon": "Github",
+        "label": "GitHub",
+        "value": "github.com/yourusername",
+        "href": "https://github.com/yourusername",
+        "desc": "Source code, personal projects, and contributions.",
+        "color": "#c4b5fd",
+        "glow": "rgba(196,181,253,0.12)"
+      },
+      {
+        "icon": "Linkedin",
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/yourusername",
+        "href": "https://linkedin.com/in/yourusername",
+        "desc": "Professional background, endorsements, and career history.",
+        "color": "#7dd3fc",
+        "glow": "rgba(125,211,252,0.12)"
+      },
+      {
+        "icon": "FileText",
+        "label": "Résumé",
+        "value": "Download PDF",
+        "href": "#",
+        "desc": "Current one-page résumé with skills and experience.",
+        "color": "#86efac",
+        "glow": "rgba(134,239,172,0.1)"
+      }
+    ],
+    "cta": { "label": "Send me a message", "href": "mailto:you@example.com" }
+  },
+  "footer": {
+    "copyright": "© 2026 Your Name · Built with React & Tailwind"
+  }
+}
