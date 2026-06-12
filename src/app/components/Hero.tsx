@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Github, Linkedin, Mail, ArrowDown, Sparkles } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import { content } from "../../content";
 
 const { hero, social } = content;
@@ -79,7 +79,6 @@ export function Hero() {
               boxShadow: "0 0 8px rgba(163,230,53,0.8)",
             }}
           />
-          <Sparkles size={12} color="#a78bfa" />
           <span
             style={{
               fontFamily: "var(--font-sans)",

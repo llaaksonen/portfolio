@@ -7,6 +7,12 @@ import {
   Github,
   Linkedin,
   FileText,
+  Database,
+  Zap,
+  Users,
+  Music,
+  MapPin,
+  Briefcase,
   type LucideIcon,
 } from "lucide-react";
 
@@ -21,6 +27,12 @@ export const icons: Record<string, LucideIcon> = {
   Github,
   Linkedin,
   FileText,
+  Database,
+  Zap,
+  Users,
+  Music,
+  MapPin,
+  Briefcase,
 };
 
 export function getIcon(name: string): LucideIcon {

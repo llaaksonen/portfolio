@@ -98,22 +98,26 @@ export function About() {
 
             {/* Location + status pills */}
             <div className="mt-8 flex flex-wrap gap-2">
-              {about.pills.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1.5 rounded-full"
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "0.78rem",
-                    fontWeight: 500,
-                    color: "#c4b5fd",
-                    background: "rgba(124,58,237,0.1)",
-                    border: "1px solid rgba(124,58,237,0.2)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
+              {about.pills.map((pill) => {
+                const Icon = getIcon(pill.icon);
+                return (
+                  <span
+                    key={pill.label}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "0.78rem",
+                      fontWeight: 500,
+                      color: "#c4b5fd",
+                      background: "rgba(124,58,237,0.1)",
+                      border: "1px solid rgba(124,58,237,0.2)",
+                    }}
+                  >
+                    <Icon size={13} />
+                    {pill.label}
+                  </span>
+                );
+              })}
             </div>
           </div>
 

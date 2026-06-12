@@ -31,7 +31,11 @@
       "Second paragraph about your background and current focus.",
       "Third paragraph about how you work and what motivates you."
     ],
-    "pills": ["📍 Open to Remote", "💼 Junior Roles", "☁️ Cloud-Interested"],
+    "pills": [
+      { "icon": "MapPin", "label": "Open to Remote" },
+      { "icon": "Briefcase", "label": "Junior Roles" },
+      { "icon": "Code2", "label": "Your Focus" }
+    ],
     "traits": [
       {
         "icon": "Code2",

@@ -27,6 +27,12 @@ export interface Trait {
   desc: string;
 }
 
+export interface Pill {
+  /** Name of a lucide icon registered in src/content/icons.ts */
+  icon: string;
+  label: string;
+}
+
 export interface Project {
   name: string;
   description: string;
@@ -51,7 +57,7 @@ export interface SkillGroup {
 }
 
 export interface TimelineEntry {
-  type: "work" | "edu";
+  type: "work" | "edu" | "cert";
   role: string;
   org: string;
   period: string;
@@ -90,7 +96,7 @@ export interface Content {
     headingLine1: string;
     headingAccent: string;
     paragraphs: string[];
-    pills: string[];
+    pills: Pill[];
     traits: Trait[];
   };
   projects: {

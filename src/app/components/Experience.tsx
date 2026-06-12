@@ -3,6 +3,33 @@ import type { TimelineEntry } from "../../content/types";
 
 const { experience } = content;
 
+const typeConfig: Record<
+  TimelineEntry["type"],
+  { label: string; color: string; bg: string; border: string; filled: boolean }
+> = {
+  work: {
+    label: "Experience",
+    color: "#a78bfa",
+    bg: "rgba(124,58,237,0.1)",
+    border: "rgba(124,58,237,0.2)",
+    filled: true,
+  },
+  edu: {
+    label: "Education",
+    color: "#67e8f9",
+    bg: "rgba(103,232,249,0.08)",
+    border: "rgba(103,232,249,0.2)",
+    filled: false,
+  },
+  cert: {
+    label: "Certification",
+    color: "#fbbf24",
+    bg: "rgba(251,191,36,0.08)",
+    border: "rgba(251,191,36,0.2)",
+    filled: false,
+  },
+};
+
 function TimelineItem({
   item,
   last,
@@ -10,7 +37,7 @@ function TimelineItem({
   item: TimelineEntry;
   last: boolean;
 }) {
-  const isWork = item.type === "work";
+  const cfg = typeConfig[item.type];
 
   return (
     <div className="flex gap-5 sm:gap-7">
@@ -19,11 +46,11 @@ function TimelineItem({
         <div
           className="w-3 h-3 rounded-full shrink-0 mt-1.5 transition-all duration-300"
           style={{
-            background: isWork
+            background: cfg.filled
               ? "linear-gradient(135deg, #7c3aed, #9d4edd)"
               : "transparent",
-            border: isWork ? "none" : "2px solid rgba(167,139,250,0.4)",
-            boxShadow: isWork ? "0 0 12px rgba(124,58,237,0.4)" : "none",
+            border: cfg.filled ? "none" : `2px solid ${cfg.color}`,
+            boxShadow: cfg.filled ? "0 0 12px rgba(124,58,237,0.4)" : "none",
           }}
         />
         {!last && (
@@ -47,18 +74,14 @@ function TimelineItem({
               fontFamily: "var(--font-sans)",
               fontSize: "0.68rem",
               fontWeight: 600,
-              color: isWork ? "#a78bfa" : "#67e8f9",
-              background: isWork
-                ? "rgba(124,58,237,0.1)"
-                : "rgba(103,232,249,0.08)",
-              border: isWork
-                ? "1px solid rgba(124,58,237,0.2)"
-                : "1px solid rgba(103,232,249,0.2)",
+              color: cfg.color,
+              background: cfg.bg,
+              border: `1px solid ${cfg.border}`,
               textTransform: "uppercase",
               letterSpacing: "0.06em",
             }}
           >
-            {isWork ? "Experience" : "Education"}
+            {cfg.label}
           </span>
           <span
             style={{
@@ -93,7 +116,8 @@ function TimelineItem({
             color: "var(--muted-foreground)",
           }}
         >
-          {item.org} · {item.location}
+          {item.org}
+          {item.location ? ` · ${item.location}` : ""}
         </p>
 
         {/* Highlight pill */}
