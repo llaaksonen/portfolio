@@ -1,4 +1,4 @@
-import { ExternalLink, Github, Star } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import { content } from "../../content";
 import type { Project } from "../../content/types";
 
@@ -71,41 +71,18 @@ function ProjectCard({ project }: { project: Project }) {
         }}
       />
 
-      <div className="flex items-start justify-between mb-3">
-        <h3
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.05rem",
-            fontWeight: 700,
-            color: "var(--foreground)",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {project.name}
-        </h3>
-        <div
-          className="flex items-center gap-1 shrink-0 ml-3 px-2 py-0.5 rounded-full"
-          style={{
-            background: "rgba(124,58,237,0.08)",
-            border: "1px solid rgba(124,58,237,0.15)",
-          }}
-        >
-          <Star
-            size={10}
-            style={{ color: "#a78bfa", fill: "#a78bfa" }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.72rem",
-              color: "#a78bfa",
-              fontWeight: 500,
-            }}
-          >
-            {project.stars}
-          </span>
-        </div>
-      </div>
+      <h3
+        className="mb-3"
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "1.05rem",
+          fontWeight: 700,
+          color: "var(--foreground)",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {project.name}
+      </h3>
 
       <p
         className="mb-5 flex-1 leading-relaxed"
