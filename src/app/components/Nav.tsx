@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Menu, X, Code2 } from "lucide-react";
 import { content } from "../../content";
 
-const { brand } = content;
 const { links } = content.nav;
 
 export function Nav() {
@@ -45,17 +44,6 @@ export function Nav() {
           >
             <Code2 size={15} color="#fff" />
           </div>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "1rem",
-              color: "var(--foreground)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {brand}
-          </span>
         </a>
 
         {/* Desktop */}

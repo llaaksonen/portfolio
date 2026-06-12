@@ -78,7 +78,6 @@ export interface Channel {
 }
 
 export interface Content {
-  brand: string;
   social: SocialLinks;
   nav: {
     links: NavLink[];
