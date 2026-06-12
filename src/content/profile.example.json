@@ -78,7 +78,7 @@
       {
         "category": "Frontend",
         "description": "Building UIs and web experiences",
-        "skills": [{ "name": "React", "icon": "⚛️", "level": "learning" }]
+        "skills": [{ "name": "React", "icon": "react", "level": "learning" }]
       }
     ]
   },

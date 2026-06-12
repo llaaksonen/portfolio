@@ -17,6 +17,9 @@ git repo. Content is resolved in this priority order (see `index.ts`):
 - **Locally:** edit `profile.local.json` (already filled in with your data).
 - **Shape reference:** `profile.example.json` + the types in `types.ts`.
 - **New icon** (in a trait or contact channel)? Register it in `icons.ts`.
+- **Skill icons** use a slug (e.g. `"react"`, `"python"`) mapped to a brand
+  logo in `skill-icons.ts`. Add a slug there for a new technology; unknown
+  slugs fall back to a generic icon.
 
 ## Deploying to Vercel
 

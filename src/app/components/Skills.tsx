@@ -1,4 +1,5 @@
 import { content } from "../../content";
+import { getSkillIcon } from "../../content/skill-icons";
 
 type Proficiency = "comfortable" | "learning" | "exploring";
 
@@ -42,6 +43,7 @@ const { skills: skillsSection } = content;
 
 function SkillChip({ skill }: { skill: Skill }) {
   const cfg = levelConfig[skill.level];
+  const { Icon, color } = getSkillIcon(skill.icon);
   return (
     <div
       className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-default group"
@@ -65,7 +67,7 @@ function SkillChip({ skill }: { skill: Skill }) {
         (e.currentTarget as HTMLElement).style.boxShadow = "none";
       }}
     >
-      <span style={{ fontSize: "1.05rem", lineHeight: 1 }}>{skill.icon}</span>
+      <Icon size={17} color={color} className="shrink-0" />
       <span
         style={{
           fontFamily: "var(--font-sans)",
