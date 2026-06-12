@@ -5,6 +5,8 @@
 export interface NavLink {
   label: string;
   href: string;
+  /** Render this link as the highlighted CTA button. */
+  highlight?: boolean;
 }
 
 export interface SocialLinks {
@@ -75,7 +77,6 @@ export interface Content {
   social: SocialLinks;
   nav: {
     links: NavLink[];
-    cta: string;
   };
   hero: {
     badge: string;

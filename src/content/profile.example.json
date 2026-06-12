@@ -11,9 +11,8 @@
       { "label": "Projects", "href": "#projects" },
       { "label": "Skills", "href": "#skills" },
       { "label": "Experience", "href": "#experience" },
-      { "label": "Contact", "href": "#contact" }
-    ],
-    "cta": "Hire Me"
+      { "label": "Contact", "href": "#contact", "highlight": true }
+    ]
   },
   "hero": {
     "badge": "Open to work",

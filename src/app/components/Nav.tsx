@@ -3,7 +3,7 @@ import { Menu, X, Code2 } from "lucide-react";
 import { content } from "../../content";
 
 const { brand } = content;
-const { links, cta } = content.nav;
+const { links } = content.nav;
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -60,57 +60,61 @@ export function Nav() {
 
         {/* Desktop */}
         <nav className="hidden md:flex items-center gap-7">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="relative transition-colors duration-200 group"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.875rem",
-                fontWeight: 500,
-                color: "var(--muted-foreground)",
-                textDecoration: "none",
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  "var(--foreground)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  "var(--muted-foreground)")
-              }
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            className="px-4 py-2 rounded-lg transition-all duration-200 hover:brightness-110"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.875rem",
-              fontWeight: 500,
-              background: "rgba(124,58,237,0.15)",
-              color: "#c4b5fd",
-              border: "1px solid rgba(124,58,237,0.3)",
-              textDecoration: "none",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background =
-                "rgba(124,58,237,0.25)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(124,58,237,0.5)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background =
-                "rgba(124,58,237,0.15)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(124,58,237,0.3)";
-            }}
-          >
-            {cta}
-          </a>
+          {links.map((l) =>
+            l.highlight ? (
+              <a
+                key={l.href}
+                href={l.href}
+                className="px-4 py-2 rounded-lg transition-all duration-200 hover:brightness-110"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  background: "rgba(124,58,237,0.15)",
+                  color: "#c4b5fd",
+                  border: "1px solid rgba(124,58,237,0.3)",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background =
+                    "rgba(124,58,237,0.25)";
+                  (e.currentTarget as HTMLElement).style.borderColor =
+                    "rgba(124,58,237,0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background =
+                    "rgba(124,58,237,0.15)";
+                  (e.currentTarget as HTMLElement).style.borderColor =
+                    "rgba(124,58,237,0.3)";
+                }}
+              >
+                {l.label}
+              </a>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                className="relative transition-colors duration-200 group"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  color: "var(--muted-foreground)",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color =
+                    "var(--foreground)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color =
+                    "var(--muted-foreground)")
+                }
+              >
+                {l.label}
+              </a>
+            )
+          )}
         </nav>
 
         {/* Mobile toggle */}
@@ -137,39 +141,43 @@ export function Nav() {
             borderBottom: "1px solid rgba(124,58,237,0.12)",
           }}
         >
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="py-3 border-b transition-colors duration-200"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.95rem",
-                color: "var(--muted-foreground)",
-                borderColor: "rgba(255,255,255,0.04)",
-                textDecoration: "none",
-              }}
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setOpen(false)}
-            className="mt-3 py-2.5 rounded-lg text-center transition-all duration-200"
-            style={{
-              background: "rgba(124,58,237,0.2)",
-              color: "#c4b5fd",
-              border: "1px solid rgba(124,58,237,0.3)",
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.875rem",
-              fontWeight: 500,
-              textDecoration: "none",
-            }}
-          >
-            {cta}
-          </a>
+          {links.map((l) =>
+            l.highlight ? (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="mt-3 py-2.5 rounded-lg text-center transition-all duration-200"
+                style={{
+                  background: "rgba(124,58,237,0.2)",
+                  color: "#c4b5fd",
+                  border: "1px solid rgba(124,58,237,0.3)",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                }}
+              >
+                {l.label}
+              </a>
+            ) : (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="py-3 border-b transition-colors duration-200"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.95rem",
+                  color: "var(--muted-foreground)",
+                  borderColor: "rgba(255,255,255,0.04)",
+                  textDecoration: "none",
+                }}
+              >
+                {l.label}
+              </a>
+            )
+          )}
         </div>
       )}
     </header>
