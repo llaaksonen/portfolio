@@ -24,7 +24,7 @@ import {
   SiFlask,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
-import { Cloud, Terminal, Webhook, Code2 } from "lucide-react";
+import { Cloud, Terminal, Webhook, Code2, Database } from "lucide-react";
 
 // Props common to both lucide and react-icons components.
 type IconComponent = ComponentType<{
@@ -57,6 +57,7 @@ const skillIcons: Record<string, SkillIcon> = {
   postgresql: { Icon: SiPostgresql, color: "#4169E1" },
   mongodb: { Icon: SiMongodb, color: "#47A248" },
   sqlite: { Icon: SiSqlite, color: "#4ABEEB" },
+  sql: { Icon: Database, color: ACCENT },
   git: { Icon: SiGit, color: "#F05032" },
   github: { Icon: SiGithub, color: "#E5E5E5" },
   python: { Icon: SiPython, color: "#3776AB" },

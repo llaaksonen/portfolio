@@ -1,6 +1,7 @@
-import { Send } from "lucide-react";
 import { content } from "../../content";
 import { getIcon } from "../../content/icons";
+import { Reveal } from "../lib/Reveal";
+import { hover } from "../lib/hover";
 
 const { contact } = content;
 
@@ -13,7 +14,7 @@ export function Contact() {
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="max-w-xl mx-auto text-center mb-16">
+        <Reveal className="max-w-xl mx-auto text-center mb-16">
           <p
             className="mb-4"
             style={{
@@ -60,10 +61,10 @@ export function Contact() {
           >
             {contact.intro}
           </p>
-        </div>
+        </Reveal>
 
         {/* Channel cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+        <Reveal className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14" delay={0.1}>
           {contact.channels.map((channel) => {
             const Icon = getIcon(channel.icon);
             const { label, value, href, desc, color, glow } = channel;
@@ -79,19 +80,18 @@ export function Contact() {
                 border: "1px solid var(--border)",
                 textDecoration: "none",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = `${color}44`;
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 0 28px ${glow}`;
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--border)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(0)";
-              }}
+              {...hover(
+                {
+                  borderColor: `${color}44`,
+                  boxShadow: `0 0 28px ${glow}`,
+                  transform: "translateY(-2px)",
+                },
+                {
+                  borderColor: "var(--border)",
+                  boxShadow: "none",
+                  transform: "translateY(0)",
+                }
+              )}
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all duration-200"
@@ -140,41 +140,7 @@ export function Contact() {
             </a>
             );
           })}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <a
-            href={contact.cta.href}
-            className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl transition-all duration-200"
-            style={{
-              background:
-                "linear-gradient(135deg, #7c3aed 0%, #9d4edd 100%)",
-              color: "#fff",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 600,
-              fontSize: "0.95rem",
-              boxShadow: "0 0 28px rgba(124,58,237,0.4)",
-              textDecoration: "none",
-              letterSpacing: "0.01em",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 44px rgba(124,58,237,0.65)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 28px rgba(124,58,237,0.4)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(0)";
-            }}
-          >
-            <Send size={17} />
-            {contact.cta.label}
-          </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

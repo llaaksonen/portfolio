@@ -1,10 +1,30 @@
 import { Fragment } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import { content } from "../../content";
+import { hover } from "../lib/hover";
 
 const { hero, social } = content;
 
+const container = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
 export function Hero() {
+  const reduce = useReducedMotion();
+
   return (
     <section
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
@@ -63,9 +83,15 @@ export function Hero() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-3xl mx-auto text-center">
+      <motion.div
+        className="relative z-10 max-w-3xl mx-auto text-center"
+        variants={container}
+        initial={reduce ? "visible" : "hidden"}
+        animate="visible"
+      >
         {/* Status badge */}
-        <div
+        <motion.div
+          variants={item}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-10"
           style={{
             background: "rgba(124,58,237,0.1)",
@@ -90,10 +116,11 @@ export function Hero() {
           >
             {hero.badge}
           </span>
-        </div>
+        </motion.div>
 
         {/* Name */}
-        <h1
+        <motion.h1
+          variants={item}
           className="mb-4 leading-none"
           style={{
             fontFamily: "var(--font-display)",
@@ -105,10 +132,13 @@ export function Hero() {
           }}
         >
           {hero.name}
-        </h1>
+        </motion.h1>
 
         {/* Title */}
-        <div className="flex items-center justify-center gap-3 mb-7 flex-wrap">
+        <motion.div
+          variants={item}
+          className="flex items-center justify-center gap-3 mb-7 flex-wrap"
+        >
           {hero.titles.map((title, i) => (
             <Fragment key={title}>
               {i > 0 && (
@@ -131,10 +161,11 @@ export function Hero() {
               </span>
             </Fragment>
           ))}
-        </div>
+        </motion.div>
 
         {/* Intro */}
-        <p
+        <motion.p
+          variants={item}
           className="max-w-lg mx-auto mb-12 leading-relaxed"
           style={{
             fontFamily: "var(--font-sans)",
@@ -144,10 +175,13 @@ export function Hero() {
           }}
         >
           {hero.intro}
-        </p>
+        </motion.p>
 
         {/* CTAs */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
+        <motion.div
+          variants={item}
+          className="flex flex-wrap items-center justify-center gap-4 mb-14"
+        >
           <a
             href={hero.primaryCta.href}
             className="px-6 py-3 rounded-xl transition-all duration-200"
@@ -162,18 +196,16 @@ export function Hero() {
               textDecoration: "none",
               letterSpacing: "0.01em",
             }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 36px rgba(124,58,237,0.65)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 0 24px rgba(124,58,237,0.45)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(0)";
-            }}
+            {...hover(
+              {
+                boxShadow: "0 0 36px rgba(124,58,237,0.65)",
+                transform: "translateY(-1px)",
+              },
+              {
+                boxShadow: "0 0 24px rgba(124,58,237,0.45)",
+                transform: "translateY(0)",
+              }
+            )}
           >
             {hero.primaryCta.label}
           </a>
@@ -190,29 +222,28 @@ export function Hero() {
               textDecoration: "none",
               letterSpacing: "0.01em",
             }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background =
-                "rgba(124,58,237,0.15)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(124,58,237,0.45)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background =
-                "rgba(124,58,237,0.08)";
-              (e.currentTarget as HTMLElement).style.borderColor =
-                "rgba(124,58,237,0.25)";
-              (e.currentTarget as HTMLElement).style.transform =
-                "translateY(0)";
-            }}
+            {...hover(
+              {
+                background: "rgba(124,58,237,0.15)",
+                borderColor: "rgba(124,58,237,0.45)",
+                transform: "translateY(-1px)",
+              },
+              {
+                background: "rgba(124,58,237,0.08)",
+                borderColor: "rgba(124,58,237,0.25)",
+                transform: "translateY(0)",
+              }
+            )}
           >
             {hero.secondaryCta.label}
           </a>
-        </div>
+        </motion.div>
 
         {/* Socials */}
-        <div className="flex items-center justify-center gap-4">
+        <motion.div
+          variants={item}
+          className="flex items-center justify-center gap-4"
+        >
           {[
             { icon: Github, href: social.github, label: "GitHub" },
             { icon: Linkedin, href: social.linkedin, label: "LinkedIn" },
@@ -231,30 +262,26 @@ export function Hero() {
                 color: "var(--muted-foreground)",
                 textDecoration: "none",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.color = "#c4b5fd";
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(124,58,237,0.4)";
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(124,58,237,0.14)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 0 16px rgba(124,58,237,0.2)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.color =
-                  "var(--muted-foreground)";
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(124,58,237,0.18)";
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(124,58,237,0.07)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
+              {...hover(
+                {
+                  color: "#c4b5fd",
+                  borderColor: "rgba(124,58,237,0.4)",
+                  background: "rgba(124,58,237,0.14)",
+                  boxShadow: "0 0 16px rgba(124,58,237,0.2)",
+                },
+                {
+                  color: "var(--muted-foreground)",
+                  borderColor: "rgba(124,58,237,0.18)",
+                  background: "rgba(124,58,237,0.07)",
+                  boxShadow: "none",
+                }
+              )}
             >
               <Icon size={17} />
             </a>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Scroll cue */}
       <a

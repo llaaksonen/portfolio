@@ -1,5 +1,6 @@
 import { content } from "../../content";
 import type { TimelineEntry } from "../../content/types";
+import { Reveal } from "../lib/Reveal";
 
 const { experience } = content;
 
@@ -171,33 +172,35 @@ export function Experience() {
       style={{ background: "var(--background)" }}
     >
       <div className="max-w-6xl mx-auto">
-        <p
-          className="mb-4"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.72rem",
-            fontWeight: 600,
-            color: "#a78bfa",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-          }}
-        >
-          {experience.eyebrow}
-        </p>
-        <h2
-          className="mb-14 leading-tight"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(2rem, 4vw, 2.8rem)",
-            fontWeight: 800,
-            color: "var(--foreground)",
-            letterSpacing: "-0.035em",
-          }}
-        >
-          {experience.heading}
-        </h2>
+        <Reveal>
+          <p
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: "#a78bfa",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            {experience.eyebrow}
+          </p>
+          <h2
+            className="mb-14 leading-tight"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 4vw, 2.8rem)",
+              fontWeight: 800,
+              color: "var(--foreground)",
+              letterSpacing: "-0.035em",
+            }}
+          >
+            {experience.heading}
+          </h2>
+        </Reveal>
 
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl" delay={0.1}>
           {experience.timeline.map((item, i) => (
             <TimelineItem
               key={`${item.org}-${i}`}
@@ -205,7 +208,7 @@ export function Experience() {
               last={i === experience.timeline.length - 1}
             />
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

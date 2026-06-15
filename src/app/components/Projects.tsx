@@ -1,6 +1,8 @@
 import { ExternalLink, Github } from "lucide-react";
 import { content } from "../../content";
 import type { Project } from "../../content/types";
+import { Reveal } from "../lib/Reveal";
+import { hover } from "../lib/hover";
 
 const { projects: projectsSection, social } = content;
 
@@ -45,21 +47,20 @@ function ProjectCard({ project }: { project: Project }) {
         position: "relative",
         overflow: "hidden",
       }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor =
-          "rgba(124,58,237,0.45)";
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          "0 0 32px rgba(124,58,237,0.12)";
-        (e.currentTarget as HTMLElement).style.transform =
-          "translateY(-2px)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = project.highlight
-          ? "rgba(124,58,237,0.3)"
-          : "var(--border)";
-        (e.currentTarget as HTMLElement).style.boxShadow = "none";
-        (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-      }}
+      {...hover(
+        {
+          borderColor: "rgba(124,58,237,0.45)",
+          boxShadow: "0 0 32px rgba(124,58,237,0.12)",
+          transform: "translateY(-2px)",
+        },
+        {
+          borderColor: project.highlight
+            ? "rgba(124,58,237,0.3)"
+            : "var(--border)",
+          boxShadow: "none",
+          transform: "translateY(0)",
+        }
+      )}
     >
       {/* Glow overlay */}
       <div
@@ -117,13 +118,10 @@ function ProjectCard({ project }: { project: Project }) {
             color: "var(--muted-foreground)",
             textDecoration: "none",
           }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.color = "#c4b5fd")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.color =
-              "var(--muted-foreground)")
-          }
+          {...hover(
+            { color: "#c4b5fd" },
+            { color: "var(--muted-foreground)" }
+          )}
         >
           <Github size={14} />
           Source
@@ -141,12 +139,7 @@ function ProjectCard({ project }: { project: Project }) {
               color: "#a78bfa",
               textDecoration: "none",
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.opacity = "0.75")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.opacity = "1")
-            }
+            {...hover({ opacity: "0.75" }, { opacity: "1" })}
           >
             <ExternalLink size={14} />
             Live Demo
@@ -165,21 +158,22 @@ export function Projects() {
       style={{ background: "var(--background)" }}
     >
       <div className="max-w-6xl mx-auto">
-        <p
-          className="mb-4"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.72rem",
-            fontWeight: 600,
-            color: "#a78bfa",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-          }}
-        >
-          {projectsSection.eyebrow}
-        </p>
+        <Reveal>
+          <p
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: "#a78bfa",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            {projectsSection.eyebrow}
+          </p>
 
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <h2
             className="leading-tight"
             style={{
@@ -205,24 +199,22 @@ export function Projects() {
               textDecoration: "none",
               paddingBottom: "4px",
             }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = "#c4b5fd")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.color =
-                "var(--muted-foreground)")
-            }
+            {...hover(
+              { color: "#c4b5fd" },
+              { color: "var(--muted-foreground)" }
+            )}
           >
             <Github size={15} />
             See all on GitHub
           </a>
-        </div>
+          </div>
+        </Reveal>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <Reveal className="grid md:grid-cols-2 lg:grid-cols-3 gap-5" delay={0.1}>
           {projectsSection.items.map((p) => (
             <ProjectCard key={p.name} project={p} />
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

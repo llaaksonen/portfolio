@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Code2 } from "lucide-react";
 import { content } from "../../content";
+import { hover } from "../lib/hover";
 
 const { links } = content.nav;
 
@@ -24,7 +25,7 @@ export function Nav() {
         backdropFilter: scrolled ? "blur(16px)" : "none",
         borderBottom: scrolled
           ? "1px solid rgba(124,58,237,0.12)"
-          : "none",
+          : "1px solid transparent",
       }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -63,18 +64,16 @@ export function Nav() {
                   border: "1px solid rgba(124,58,237,0.3)",
                   textDecoration: "none",
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background =
-                    "rgba(124,58,237,0.25)";
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "rgba(124,58,237,0.5)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background =
-                    "rgba(124,58,237,0.15)";
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "rgba(124,58,237,0.3)";
-                }}
+                {...hover(
+                  {
+                    background: "rgba(124,58,237,0.25)",
+                    borderColor: "rgba(124,58,237,0.5)",
+                  },
+                  {
+                    background: "rgba(124,58,237,0.15)",
+                    borderColor: "rgba(124,58,237,0.3)",
+                  }
+                )}
               >
                 {l.label}
               </a>
@@ -90,14 +89,10 @@ export function Nav() {
                   color: "var(--muted-foreground)",
                   textDecoration: "none",
                 }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color =
-                    "var(--foreground)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color =
-                    "var(--muted-foreground)")
-                }
+                {...hover(
+                  { color: "var(--foreground)" },
+                  { color: "var(--muted-foreground)" }
+                )}
               >
                 {l.label}
               </a>

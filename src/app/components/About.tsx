@@ -1,5 +1,7 @@
 import { content } from "../../content";
 import { getIcon } from "../../content/icons";
+import { Reveal } from "../lib/Reveal";
+import { hover } from "../lib/hover";
 
 const { about } = content;
 
@@ -17,16 +19,13 @@ function PurpleCard({
         background: "var(--card)",
         border: "1px solid var(--border)",
       }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor =
-          "rgba(124,58,237,0.35)";
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          "0 0 24px rgba(124,58,237,0.1)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-        (e.currentTarget as HTMLElement).style.boxShadow = "none";
-      }}
+      {...hover(
+        {
+          borderColor: "rgba(124,58,237,0.35)",
+          boxShadow: "0 0 24px rgba(124,58,237,0.1)",
+        },
+        { borderColor: "var(--border)", boxShadow: "none" }
+      )}
     >
       {children}
     </div>
@@ -43,7 +42,7 @@ export function About() {
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-[1fr_1.05fr] gap-16 items-start">
           {/* Text */}
-          <div>
+          <Reveal>
             <p
               className="mb-4"
               style={{
@@ -119,10 +118,10 @@ export function About() {
                 );
               })}
             </div>
-          </div>
+          </Reveal>
 
           {/* Trait cards */}
-          <div className="grid grid-cols-2 gap-3.5">
+          <Reveal className="grid grid-cols-2 gap-3.5" delay={0.1}>
             {about.traits.map((trait) => {
               const Icon = getIcon(trait.icon);
               return (
@@ -163,7 +162,7 @@ export function About() {
               </PurpleCard>
               );
             })}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

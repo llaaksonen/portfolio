@@ -1,5 +1,6 @@
 import { Github, Linkedin, Mail, Code2 } from "lucide-react";
 import { content } from "../../content";
+import { hover } from "../lib/hover";
 
 const { social, footer } = content;
 
@@ -47,13 +48,10 @@ export function Footer() {
               aria-label={label}
               className="transition-colors duration-200"
               style={{ color: "var(--muted-foreground)" }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = "#c4b5fd")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color =
-                  "var(--muted-foreground)")
-              }
+              {...hover(
+                { color: "#c4b5fd" },
+                { color: "var(--muted-foreground)" }
+              )}
             >
               <Icon size={16} />
             </a>

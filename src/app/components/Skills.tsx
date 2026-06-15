@@ -1,5 +1,7 @@
 import { content } from "../../content";
 import { getSkillIcon } from "../../content/skill-icons";
+import { Reveal } from "../lib/Reveal";
+import { hover } from "../lib/hover";
 
 type Proficiency = "comfortable" | "learning" | "exploring";
 
@@ -51,21 +53,18 @@ function SkillChip({ skill }: { skill: Skill }) {
         background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(124,58,237,0.12)",
       }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.background =
-          "rgba(124,58,237,0.07)";
-        (e.currentTarget as HTMLElement).style.borderColor =
-          "rgba(124,58,237,0.3)";
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          "0 0 16px rgba(124,58,237,0.1)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.background =
-          "rgba(255,255,255,0.03)";
-        (e.currentTarget as HTMLElement).style.borderColor =
-          "rgba(124,58,237,0.12)";
-        (e.currentTarget as HTMLElement).style.boxShadow = "none";
-      }}
+      {...hover(
+        {
+          background: "rgba(124,58,237,0.07)",
+          borderColor: "rgba(124,58,237,0.3)",
+          boxShadow: "0 0 16px rgba(124,58,237,0.1)",
+        },
+        {
+          background: "rgba(255,255,255,0.03)",
+          borderColor: "rgba(124,58,237,0.12)",
+          boxShadow: "none",
+        }
+      )}
     >
       <Icon size={17} color={color} className="shrink-0" />
       <span
@@ -146,20 +145,21 @@ export function Skills() {
       style={{ background: "var(--secondary)" }}
     >
       <div className="max-w-6xl mx-auto">
-        <p
-          className="mb-4"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.72rem",
-            fontWeight: 600,
-            color: "#a78bfa",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-          }}
-        >
-          {skillsSection.eyebrow}
-        </p>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        <Reveal>
+          <p
+            className="mb-4"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: "#a78bfa",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+            }}
+          >
+            {skillsSection.eyebrow}
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <h2
             className="leading-tight"
             style={{
@@ -194,13 +194,14 @@ export function Skills() {
               )
             )}
           </div>
-        </div>
+          </div>
+        </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Reveal className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" delay={0.1}>
           {skillsSection.groups.map((g) => (
             <GroupCard key={g.category} group={g} />
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
