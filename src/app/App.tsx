@@ -11,10 +11,11 @@ export default function App() {
   return (
     <div
       style={{
-        fontFamily: "var(--font-sans)",
+        fontFamily: "var(--font-body)",
         background: "var(--background)",
         color: "var(--foreground)",
         minHeight: "100vh",
+        overflowX: "hidden",
       }}
     >
       <Nav />

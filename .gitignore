@@ -38,3 +38,6 @@ Thumbs.db
 
 # Private site content (real values live here / in the VITE_CONTENT env var)
 src/content/profile.local.json
+
+# Private personal portrait (drop one in to show it; stays out of the repo)
+src/content/portrait.local.*

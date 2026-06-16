@@ -1,187 +1,55 @@
-import { ExternalLink, Github } from "lucide-react";
+import { useState } from "react";
 import { content } from "../../content";
-import type { Project } from "../../content/types";
 import { Reveal } from "../lib/Reveal";
 import { hover } from "../lib/hover";
 
 const { projects: projectsSection, social } = content;
-
-const tagPalette: Record<string, { bg: string; color: string }> = {
-  React: { bg: "rgba(97,218,251,0.1)", color: "#67e8f9" },
-  TypeScript: { bg: "rgba(49,120,198,0.12)", color: "#93c5fd" },
-  Python: { bg: "rgba(255,221,87,0.1)", color: "#fde68a" },
-  "Node.js": { bg: "rgba(104,160,99,0.12)", color: "#86efac" },
-  Docker: { bg: "rgba(36,150,237,0.1)", color: "#7dd3fc" },
-  Linux: { bg: "rgba(255,255,255,0.06)", color: "#d1d5db" },
-};
-
-function getTagStyle(tag: string) {
-  const p = tagPalette[tag] ?? {
-    bg: "rgba(124,58,237,0.1)",
-    color: "#c4b5fd",
-  };
-  return {
-    background: p.bg,
-    color: p.color,
-    border: `1px solid ${p.color}22`,
-    fontFamily: "var(--font-sans)" as const,
-    fontSize: "0.7rem" as const,
-    fontWeight: 500 as const,
-    padding: "2px 8px",
-    borderRadius: "9999px",
-    letterSpacing: "0.02em",
-  };
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <div
-      className="group flex flex-col p-6 rounded-2xl h-full transition-all duration-250"
-      style={{
-        background: project.highlight
-          ? "linear-gradient(135deg, rgba(124,58,237,0.12) 0%, rgba(157,78,221,0.06) 100%)"
-          : "var(--card)",
-        border: project.highlight
-          ? "1px solid rgba(124,58,237,0.3)"
-          : "1px solid var(--border)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-      {...hover(
-        {
-          borderColor: "rgba(124,58,237,0.45)",
-          boxShadow: "0 0 32px rgba(124,58,237,0.12)",
-          transform: "translateY(-2px)",
-        },
-        {
-          borderColor: project.highlight
-            ? "rgba(124,58,237,0.3)"
-            : "var(--border)",
-          boxShadow: "none",
-          transform: "translateY(0)",
-        }
-      )}
-    >
-      {/* Glow overlay */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent, rgba(124,58,237,0.4), transparent)",
-          opacity: project.highlight ? 1 : 0,
-        }}
-      />
-
-      <h3
-        className="mb-3"
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "1.05rem",
-          fontWeight: 700,
-          color: "var(--foreground)",
-          letterSpacing: "-0.02em",
-        }}
-      >
-        {project.name}
-      </h3>
-
-      <p
-        className="mb-5 flex-1 leading-relaxed"
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.85rem",
-          color: "var(--muted-foreground)",
-          lineHeight: 1.7,
-        }}
-      >
-        {project.description}
-      </p>
-
-      <div className="flex flex-wrap gap-1.5 mb-5">
-        {project.tags.map((tag) => (
-          <span key={tag} style={getTagStyle(tag)}>
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-4 mt-auto">
-        <a
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 transition-colors duration-200"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.82rem",
-            fontWeight: 500,
-            color: "var(--muted-foreground)",
-            textDecoration: "none",
-          }}
-          {...hover(
-            { color: "#c4b5fd" },
-            { color: "var(--muted-foreground)" }
-          )}
-        >
-          <Github size={14} />
-          Source
-        </a>
-        {project.demo && (
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 transition-colors duration-200"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.82rem",
-              fontWeight: 500,
-              color: "#a78bfa",
-              textDecoration: "none",
-            }}
-            {...hover({ opacity: "0.75" }, { opacity: "1" })}
-          >
-            <ExternalLink size={14} />
-            Live Demo
-          </a>
-        )}
-      </div>
-    </div>
-  );
-}
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
 export function Projects() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
     <section
       id="projects"
-      className="py-28 px-6"
-      style={{ background: "var(--background)" }}
+      style={{
+        padding: `clamp(6rem, 12vh, 11rem) ${sectionPad}`,
+        background: "var(--background)",
+      }}
     >
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <p
-            className="mb-4"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.72rem",
-              fontWeight: 600,
-              color: "#a78bfa",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
-          >
-            {projectsSection.eyebrow}
-          </p>
+      <Reveal>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.5625rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            marginBottom: "clamp(2.5rem, 5vh, 4rem)",
+          }}
+        >
+          02 · {projectsSection.eyebrow}
+        </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            flexWrap: "wrap",
+            gap: "1rem",
+            marginBottom: "clamp(2rem, 4vh, 3.5rem)",
+          }}
+        >
           <h2
-            className="leading-tight"
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(2rem, 4vw, 2.8rem)",
-              fontWeight: 800,
+              fontSize: "clamp(2rem, 5vw, 3.5rem)",
+              fontWeight: 300,
+              letterSpacing: "-0.03em",
+              lineHeight: 1,
               color: "var(--foreground)",
-              letterSpacing: "-0.035em",
+              margin: 0,
             }}
           >
             {projectsSection.heading}
@@ -190,32 +58,189 @@ export function Projects() {
             href={social.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 shrink-0 transition-colors duration-200"
             style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.5625rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
               color: "var(--muted-foreground)",
               textDecoration: "none",
-              paddingBottom: "4px",
+              paddingBottom: "0.4rem",
             }}
             {...hover(
-              { color: "#c4b5fd" },
+              { color: "var(--foreground)" },
               { color: "var(--muted-foreground)" }
             )}
           >
-            <Github size={15} />
-            See all on GitHub
+            All on GitHub ↗
           </a>
-          </div>
-        </Reveal>
+        </div>
+      </Reveal>
 
-        <Reveal className="grid md:grid-cols-2 lg:grid-cols-3 gap-5" delay={0.1}>
-          {projectsSection.items.map((p) => (
-            <ProjectCard key={p.name} project={p} />
-          ))}
-        </Reveal>
-      </div>
+      <Reveal delay={0.1}>
+        <div>
+          {projectsSection.items.map((project, i) => {
+            const num = String(i + 1).padStart(2, "0");
+            const isHover = hovered === i;
+            return (
+              <div
+                key={project.name}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                className="project-row"
+                style={{
+                  borderTop: "1px solid var(--border)",
+                  padding: "clamp(1.5rem, 3vh, 2.5rem) 0",
+                  display: "grid",
+                  gap: "0.75rem",
+                  cursor: "default",
+                  paddingLeft: isHover ? "1rem" : "0",
+                  transition: "padding-left 0.35s ease",
+                }}
+              >
+                {/* Top line: number + name */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: "clamp(1rem, 3vw, 2.5rem)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.5625rem",
+                      letterSpacing: "0.18em",
+                      color: isHover
+                        ? "var(--accent)"
+                        : "var(--muted-foreground)",
+                      transition: "color 0.3s ease",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {num}
+                  </span>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "clamp(1.35rem, 3.4vw, 2.5rem)",
+                      fontWeight: 300,
+                      letterSpacing: "-0.025em",
+                      lineHeight: 1.05,
+                      color: "var(--foreground)",
+                      margin: 0,
+                    }}
+                  >
+                    {project.highlight ? (
+                      <em style={{ fontStyle: "italic", fontWeight: 200 }}>
+                        {project.name}
+                      </em>
+                    ) : (
+                      project.name
+                    )}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p
+                  className="project-desc"
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.875rem",
+                    fontWeight: 300,
+                    lineHeight: 1.65,
+                    color: "var(--muted-foreground)",
+                    margin: 0,
+                    maxWidth: "640px",
+                    paddingLeft: "var(--desc-indent, 0)",
+                  }}
+                >
+                  {project.description}
+                </p>
+
+                {/* Tags + links */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    gap: "1rem 1.5rem",
+                    paddingLeft: "var(--desc-indent, 0)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "1rem",
+                    }}
+                  >
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.5rem",
+                          letterSpacing: "0.16em",
+                          textTransform: "uppercase",
+                          color: "var(--muted-foreground)",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", gap: "1.25rem", marginLeft: "auto" }}>
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "0.5625rem",
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: "var(--muted-foreground)",
+                        textDecoration: "none",
+                      }}
+                      {...hover(
+                        { color: "var(--foreground)" },
+                        { color: "var(--muted-foreground)" }
+                      )}
+                    >
+                      Source ↗
+                    </a>
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.5625rem",
+                          letterSpacing: "0.16em",
+                          textTransform: "uppercase",
+                          color: "var(--accent)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Live ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div style={{ borderTop: "1px solid var(--border)" }} />
+        </div>
+      </Reveal>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .project-row { --desc-indent: calc(0.5625rem + clamp(1rem, 3vw, 2.5rem)); }
+        }
+      `}</style>
     </section>
   );
 }

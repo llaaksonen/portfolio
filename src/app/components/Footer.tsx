@@ -1,62 +1,84 @@
-import { Github, Linkedin, Mail, Code2 } from "lucide-react";
 import { content } from "../../content";
 import { hover } from "../lib/hover";
 
-const { social, footer } = content;
+const { social, footer, hero } = content;
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
+
+const socialLinks = [
+  { label: "GitHub", href: social.github },
+  { label: "LinkedIn", href: social.linkedin },
+  { label: "Email", href: `mailto:${social.email}` },
+];
 
 export function Footer() {
   return (
     <footer
-      className="py-10 px-6"
       style={{
+        padding: `1.75rem ${sectionPad}`,
+        borderTop: "1px solid var(--border)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "1.25rem",
         background: "var(--background)",
-        borderTop: "1px solid rgba(124,58,237,0.1)",
       }}
     >
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-2">
-          <div
-            className="w-6 h-6 rounded-md flex items-center justify-center"
-            style={{
-              background: "linear-gradient(135deg, #7c3aed, #9d4edd)",
-            }}
-          >
-            <Code2 size={12} color="#fff" />
-          </div>
-          <p
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.82rem",
-              color: "var(--muted-foreground)",
-            }}
-          >
-            {footer.copyright}
-          </p>
-        </div>
+      <span
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "0.875rem",
+          fontWeight: 300,
+          letterSpacing: "0.01em",
+          color: "var(--muted-foreground)",
+        }}
+      >
+        {hero.name}
+      </span>
 
-        <div className="flex items-center gap-5">
-          {[
-            { icon: Github, href: social.github, label: "GitHub" },
-            { icon: Linkedin, href: social.linkedin, label: "LinkedIn" },
-            { icon: Mail, href: `mailto:${social.email}`, label: "Email" },
-          ].map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="transition-colors duration-200"
-              style={{ color: "var(--muted-foreground)" }}
-              {...hover(
-                { color: "#c4b5fd" },
-                { color: "var(--muted-foreground)" }
-              )}
-            >
-              <Icon size={16} />
-            </a>
-          ))}
-        </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "2rem",
+          flexWrap: "wrap",
+        }}
+      >
+        {socialLinks.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.5rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--muted-foreground)",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
+            }}
+            {...hover(
+              { color: "var(--foreground)" },
+              { color: "var(--muted-foreground)" }
+            )}
+          >
+            {s.label}
+          </a>
+        ))}
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.4375rem",
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            opacity: 0.6,
+          }}
+        >
+          {footer.copyright}
+        </span>
       </div>
     </footer>
   );

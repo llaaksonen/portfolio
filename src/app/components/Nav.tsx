@@ -1,166 +1,142 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { content } from "../../content";
 import { hover } from "../lib/hover";
 
 const { links } = content.nav;
+const { hero } = content;
+
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 32);
-    window.addEventListener("scroll", handler);
+    const handler = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background: scrolled
-          ? "rgba(8,7,15,0.85)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
+        padding: `1.4rem ${sectionPad}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        background: scrolled ? "rgba(244, 239, 231, 0.9)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled
-          ? "1px solid rgba(124,58,237,0.12)"
+          ? "1px solid var(--border)"
           : "1px solid transparent",
+        transition:
+          "background-color 0.5s ease, border-color 0.5s ease, backdrop-filter 0.5s ease",
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <a
-          href="#"
-          className="flex items-center gap-2.5 group"
-          style={{ textDecoration: "none" }}
-        >
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-105"
+      {/* Wordmark */}
+      <a
+        href="#"
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: "1rem",
+          fontWeight: 400,
+          letterSpacing: "0.01em",
+          color: "var(--foreground)",
+          textDecoration: "none",
+        }}
+      >
+        {hero.name}
+      </a>
+
+      {/* Desktop links */}
+      <nav className="hidden md:flex items-center" style={{ gap: "2.25rem" }}>
+        {links.map((l) => (
+          <a
+            key={l.href}
+            href={l.href}
             style={{
-              background:
-                "linear-gradient(135deg, #7c3aed 0%, #9d4edd 100%)",
-              boxShadow: "0 0 16px rgba(124,58,237,0.4)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.625rem",
+              fontWeight: 400,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: l.highlight ? "var(--accent)" : "var(--muted-foreground)",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
             }}
+            {...hover(
+              { color: "var(--foreground)" },
+              {
+                color: l.highlight
+                  ? "var(--accent)"
+                  : "var(--muted-foreground)",
+              }
+            )}
           >
-            <Code2 size={15} color="#fff" />
-          </div>
-        </a>
+            {l.highlight ? `${l.label} →` : l.label}
+          </a>
+        ))}
+      </nav>
 
-        {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-7">
-          {links.map((l) =>
-            l.highlight ? (
-              <a
-                key={l.href}
-                href={l.href}
-                className="px-4 py-2 rounded-lg transition-all duration-200 hover:brightness-110"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  background: "rgba(124,58,237,0.15)",
-                  color: "#c4b5fd",
-                  border: "1px solid rgba(124,58,237,0.3)",
-                  textDecoration: "none",
-                }}
-                {...hover(
-                  {
-                    background: "rgba(124,58,237,0.25)",
-                    borderColor: "rgba(124,58,237,0.5)",
-                  },
-                  {
-                    background: "rgba(124,58,237,0.15)",
-                    borderColor: "rgba(124,58,237,0.3)",
-                  }
-                )}
-              >
-                {l.label}
-              </a>
-            ) : (
-              <a
-                key={l.href}
-                href={l.href}
-                className="relative transition-colors duration-200 group"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  color: "var(--muted-foreground)",
-                  textDecoration: "none",
-                }}
-                {...hover(
-                  { color: "var(--foreground)" },
-                  { color: "var(--muted-foreground)" }
-                )}
-              >
-                {l.label}
-              </a>
-            )
-          )}
-        </nav>
-
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg transition-colors duration-200"
-          onClick={() => setOpen(!open)}
-          style={{
-            color: "var(--muted-foreground)",
-            border: "1px solid rgba(124,58,237,0.2)",
-            background: "rgba(124,58,237,0.06)",
-          }}
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </div>
+      {/* Mobile toggle */}
+      <button
+        className="md:hidden flex items-center justify-center"
+        onClick={() => setOpen(!open)}
+        style={{
+          width: "2.25rem",
+          height: "2.25rem",
+          color: "var(--foreground)",
+          background: "transparent",
+          border: "1px solid var(--border)",
+          borderRadius: "2px",
+        }}
+        aria-label="Toggle menu"
+      >
+        {open ? <X size={16} /> : <Menu size={16} />}
+      </button>
 
       {/* Mobile drawer */}
       {open && (
         <div
-          className="md:hidden px-6 pb-6 flex flex-col gap-1"
+          className="md:hidden"
           style={{
-            background: "rgba(8,7,15,0.97)",
-            borderBottom: "1px solid rgba(124,58,237,0.12)",
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            background: "rgba(244, 239, 231, 0.98)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderBottom: "1px solid var(--border)",
+            padding: `0.5rem ${sectionPad} 1.75rem`,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          {links.map((l) =>
-            l.highlight ? (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="mt-3 py-2.5 rounded-lg text-center transition-all duration-200"
-                style={{
-                  background: "rgba(124,58,237,0.2)",
-                  color: "#c4b5fd",
-                  border: "1px solid rgba(124,58,237,0.3)",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  textDecoration: "none",
-                }}
-              >
-                {l.label}
-              </a>
-            ) : (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="py-3 border-b transition-colors duration-200"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.95rem",
-                  color: "var(--muted-foreground)",
-                  borderColor: "rgba(255,255,255,0.04)",
-                  textDecoration: "none",
-                }}
-              >
-                {l.label}
-              </a>
-            )
-          )}
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.6875rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: l.highlight
+                  ? "var(--accent)"
+                  : "var(--muted-foreground)",
+                textDecoration: "none",
+                padding: "0.9rem 0",
+                borderBottom: "1px solid var(--border)",
+              }}
+            >
+              {l.highlight ? `${l.label} →` : l.label}
+            </a>
+          ))}
         </div>
       )}
     </header>
