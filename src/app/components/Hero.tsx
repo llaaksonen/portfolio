@@ -1,297 +1,237 @@
-import { Fragment } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import { content } from "../../content";
-import { hover } from "../lib/hover";
+import { ConstellationMotif } from "./ConstellationMotif";
 
 const { hero, social } = content;
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
-const container = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
+const nameWords = hero.name.trim().split(/\s+/);
 
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
-  },
-};
+const socialLinks = [
+  { label: "GitHub", href: social.github },
+  { label: "LinkedIn", href: social.linkedin },
+  { label: "Email", href: `mailto:${social.email}` },
+];
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const show = (delay: number) =>
+    reduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: 24 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 1, delay, ease: [0.16, 1, 0.3, 1] as const },
+        };
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
-      style={{ background: "var(--background)" }}
+      id="hero"
+      style={{
+        minHeight: "100svh",
+        padding: `0 ${sectionPad}`,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        background: "var(--background)",
+      }}
     >
-      {/* Grid background */}
+      {/* Constellation motif: large, drifting, behind the content. As the first
+          child it paints beneath everything that follows, so no z-index needed. */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="hero-motif"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px)
-          `,
-          backgroundSize: "48px 48px",
+          position: "absolute",
+          aspectRatio: "280 / 180",
+          color: "var(--foreground)",
+          pointerEvents: "none",
         }}
-      />
-
-      {/* Vignette over grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, var(--background) 100%)",
-        }}
-      />
-
-      {/* Central purple glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: "700px",
-          height: "500px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(ellipse, rgba(124,58,237,0.18) 0%, rgba(157,78,221,0.08) 40%, transparent 70%)",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -52%)",
-          filter: "blur(20px)",
-        }}
-      />
-
-      {/* Secondary accent glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: "300px",
-          height: "300px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(157,78,221,0.12) 0%, transparent 70%)",
-          bottom: "15%",
-          right: "10%",
-          filter: "blur(50px)",
-        }}
-      />
-
-      {/* Content */}
-      <motion.div
-        className="relative z-10 max-w-3xl mx-auto text-center"
-        variants={container}
-        initial={reduce ? "visible" : "hidden"}
-        animate="visible"
       >
-        {/* Status badge */}
-        <motion.div
-          variants={item}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-10"
-          style={{
-            background: "rgba(124,58,237,0.1)",
-            border: "1px solid rgba(124,58,237,0.25)",
-          }}
-        >
-          <span
-            className="w-1.5 h-1.5 rounded-full"
-            style={{
-              background: "#a3e635",
-              boxShadow: "0 0 8px rgba(163,230,53,0.8)",
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.78rem",
-              fontWeight: 500,
-              color: "#a78bfa",
-              letterSpacing: "0.04em",
-            }}
-          >
-            {hero.badge}
-          </span>
-        </motion.div>
+        <ConstellationMotif width="100%" height="100%" opacity={0.16} />
+      </div>
 
-        {/* Name */}
-        <motion.h1
-          variants={item}
-          className="mb-4 leading-none"
+      {/* Section index label */}
+      <motion.div
+        {...show(0.15)}
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.5625rem",
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "var(--muted-foreground)",
+          marginBottom: "clamp(2.5rem, 5vh, 3.5rem)",
+          paddingTop: "8rem",
+        }}
+      >
+        00 · {hero.titles.join(" / ")}
+      </motion.div>
+
+      {/* Display name */}
+      <motion.h1
+        {...show(0.25)}
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: `clamp(2.75rem, 10vw, 9rem)`,
+          fontWeight: 300,
+          lineHeight: 0.95,
+          letterSpacing: "-0.03em",
+          color: "var(--foreground)",
+          margin: 0,
+          maxWidth: "82%",
+        }}
+      >
+        {nameWords.map((word, i) => (
+          <span key={i}>
+            {i === nameWords.length - 1 && nameWords.length > 1 ? (
+              <em style={{ fontStyle: "italic", fontWeight: 200 }}>{word}</em>
+            ) : (
+              word
+            )}
+            {i < nameWords.length - 1 && <br />}
+          </span>
+        ))}
+      </motion.h1>
+
+      {/* Intro line */}
+      <motion.p
+        {...show(0.5)}
+        style={{
+          fontFamily: "var(--font-body)",
+          fontSize: "0.95rem",
+          fontWeight: 300,
+          lineHeight: 1.75,
+          color: "var(--muted-foreground)",
+          maxWidth: "440px",
+          marginTop: "clamp(2.25rem, 4vh, 3rem)",
+          marginBottom: 0,
+        }}
+      >
+        {hero.intro}
+      </motion.p>
+
+      {/* Calls to action */}
+      <motion.div
+        {...show(0.65)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "2rem",
+          flexWrap: "wrap",
+          marginTop: "2.5rem",
+        }}
+      >
+        <a
+          href={hero.primaryCta.href}
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(3.2rem, 9vw, 6rem)",
-            fontWeight: 800,
+            fontSize: "1.05rem",
+            fontStyle: "italic",
+            fontWeight: 300,
             color: "var(--foreground)",
-            letterSpacing: "-0.04em",
-            lineHeight: 1.0,
+            textDecoration: "none",
+            borderBottom: "1px solid var(--foreground)",
+            paddingBottom: "2px",
           }}
         >
-          {hero.name}
-        </motion.h1>
-
-        {/* Title */}
-        <motion.div
-          variants={item}
-          className="flex items-center justify-center gap-3 mb-7 flex-wrap"
-        >
-          {hero.titles.map((title, i) => (
-            <Fragment key={title}>
-              {i > 0 && (
-                <span
-                  style={{ color: "rgba(124,58,237,0.4)", fontSize: "1.2rem" }}
-                >
-                  /
-                </span>
-              )}
-              <span
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(1rem, 2.5vw, 1.35rem)",
-                  fontWeight: 500,
-                  color: "#a78bfa",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {title}
-              </span>
-            </Fragment>
-          ))}
-        </motion.div>
-
-        {/* Intro */}
-        <motion.p
-          variants={item}
-          className="max-w-lg mx-auto mb-12 leading-relaxed"
+          {hero.primaryCta.label} →
+        </a>
+        <a
+          href={hero.secondaryCta.href}
           style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "1rem",
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.625rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
             color: "var(--muted-foreground)",
-            lineHeight: 1.8,
+            textDecoration: "none",
           }}
         >
-          {hero.intro}
-        </motion.p>
+          {hero.secondaryCta.label}
+        </a>
+      </motion.div>
 
-        {/* CTAs */}
-        <motion.div
-          variants={item}
-          className="flex flex-wrap items-center justify-center gap-4 mb-14"
-        >
+      {/* Social row */}
+      <motion.div
+        {...show(0.8)}
+        style={{
+          display: "flex",
+          gap: "1.75rem",
+          flexWrap: "wrap",
+          marginTop: "clamp(3rem, 6vh, 4.5rem)",
+        }}
+      >
+        {socialLinks.map((s) => (
           <a
-            href={hero.primaryCta.href}
-            className="px-6 py-3 rounded-xl transition-all duration-200"
+            key={s.label}
+            href={s.href}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel="noopener noreferrer"
             style={{
-              background:
-                "linear-gradient(135deg, #7c3aed 0%, #9d4edd 100%)",
-              color: "#fff",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              boxShadow: "0 0 24px rgba(124,58,237,0.45)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.5625rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "var(--muted-foreground)",
               textDecoration: "none",
-              letterSpacing: "0.01em",
             }}
-            {...hover(
-              {
-                boxShadow: "0 0 36px rgba(124,58,237,0.65)",
-                transform: "translateY(-1px)",
-              },
-              {
-                boxShadow: "0 0 24px rgba(124,58,237,0.45)",
-                transform: "translateY(0)",
-              }
-            )}
           >
-            {hero.primaryCta.label}
+            {s.label} ↗
           </a>
-          <a
-            href={hero.secondaryCta.href}
-            className="px-6 py-3 rounded-xl transition-all duration-200"
-            style={{
-              background: "rgba(124,58,237,0.08)",
-              color: "#c4b5fd",
-              border: "1px solid rgba(124,58,237,0.25)",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              textDecoration: "none",
-              letterSpacing: "0.01em",
-            }}
-            {...hover(
-              {
-                background: "rgba(124,58,237,0.15)",
-                borderColor: "rgba(124,58,237,0.45)",
-                transform: "translateY(-1px)",
-              },
-              {
-                background: "rgba(124,58,237,0.08)",
-                borderColor: "rgba(124,58,237,0.25)",
-                transform: "translateY(0)",
-              }
-            )}
-          >
-            {hero.secondaryCta.label}
-          </a>
-        </motion.div>
-
-        {/* Socials */}
-        <motion.div
-          variants={item}
-          className="flex items-center justify-center gap-4"
-        >
-          {[
-            { icon: Github, href: social.github, label: "GitHub" },
-            { icon: Linkedin, href: social.linkedin, label: "LinkedIn" },
-            { icon: Mail, href: `mailto:${social.email}`, label: "Email" },
-          ].map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200"
-              style={{
-                background: "rgba(124,58,237,0.07)",
-                border: "1px solid rgba(124,58,237,0.18)",
-                color: "var(--muted-foreground)",
-                textDecoration: "none",
-              }}
-              {...hover(
-                {
-                  color: "#c4b5fd",
-                  borderColor: "rgba(124,58,237,0.4)",
-                  background: "rgba(124,58,237,0.14)",
-                  boxShadow: "0 0 16px rgba(124,58,237,0.2)",
-                },
-                {
-                  color: "var(--muted-foreground)",
-                  borderColor: "rgba(124,58,237,0.18)",
-                  background: "rgba(124,58,237,0.07)",
-                  boxShadow: "none",
-                }
-              )}
-            >
-              <Icon size={17} />
-            </a>
-          ))}
-        </motion.div>
+        ))}
       </motion.div>
 
       {/* Scroll cue */}
-      <a
-        href="#about"
-        className="absolute bottom-8 flex flex-col items-center gap-1.5 animate-bounce"
-        style={{ color: "rgba(124,58,237,0.5)", textDecoration: "none" }}
-        aria-label="Scroll to about"
+      <div
+        style={{
+          position: "absolute",
+          bottom: "2.25rem",
+          left: sectionPad,
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.5rem",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "var(--muted-foreground)",
+          opacity: 0.6,
+        }}
       >
-        <ArrowDown size={18} />
-      </a>
+        Scroll ↓
+      </div>
+
+      {/* Hairline rule */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: sectionPad,
+          right: sectionPad,
+          height: "1px",
+          background: "var(--border)",
+        }}
+      />
+
+      <style>{`
+        /* Mobile: the motif sits across the top as a faint header, behind
+           the content. On wider screens it moves to its right-side berth. */
+        .hero-motif {
+          top: clamp(4rem, 13vh, 7rem);
+          left: 50%;
+          transform: translateX(-50%);
+          width: min(92vw, 540px);
+          opacity: 0.7;
+        }
+        @media (min-width: 768px) {
+          .hero-motif {
+            top: 50%;
+            left: auto;
+            right: clamp(2rem, 7vw, 10rem);
+            transform: translateY(-48%);
+            width: clamp(440px, 52vw, 860px);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </section>
   );
 }

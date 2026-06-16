@@ -1,208 +1,155 @@
 import { content } from "../../content";
 import { getSkillIcon } from "../../content/skill-icons";
 import { Reveal } from "../lib/Reveal";
-import { hover } from "../lib/hover";
 
 type Proficiency = "comfortable" | "learning" | "exploring";
 
-interface Skill {
-  name: string;
-  icon: string;
-  level: Proficiency;
-}
-
-interface SkillGroup {
-  category: string;
-  description: string;
-  skills: Skill[];
-}
-
-const levelConfig: Record<
-  Proficiency,
-  { label: string; color: string; bg: string; border: string }
-> = {
-  comfortable: {
-    label: "Comfortable",
-    color: "#a3e635",
-    bg: "rgba(163,230,53,0.08)",
-    border: "rgba(163,230,53,0.2)",
-  },
-  learning: {
-    label: "Learning",
-    color: "#a78bfa",
-    bg: "rgba(167,139,250,0.08)",
-    border: "rgba(167,139,250,0.2)",
-  },
-  exploring: {
-    label: "Exploring",
-    color: "#67e8f9",
-    bg: "rgba(103,232,249,0.08)",
-    border: "rgba(103,232,249,0.2)",
-  },
+const levelLabel: Record<Proficiency, string> = {
+  comfortable: "Comfortable",
+  learning: "Learning",
+  exploring: "Exploring",
 };
 
 const { skills: skillsSection } = content;
-
-function SkillChip({ skill }: { skill: Skill }) {
-  const cfg = levelConfig[skill.level];
-  const { Icon, color } = getSkillIcon(skill.icon);
-  return (
-    <div
-      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-default group"
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(124,58,237,0.12)",
-      }}
-      {...hover(
-        {
-          background: "rgba(124,58,237,0.07)",
-          borderColor: "rgba(124,58,237,0.3)",
-          boxShadow: "0 0 16px rgba(124,58,237,0.1)",
-        },
-        {
-          background: "rgba(255,255,255,0.03)",
-          borderColor: "rgba(124,58,237,0.12)",
-          boxShadow: "none",
-        }
-      )}
-    >
-      <Icon size={17} color={color} className="shrink-0" />
-      <span
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.83rem",
-          fontWeight: 500,
-          color: "var(--foreground)",
-          flex: 1,
-        }}
-      >
-        {skill.name}
-      </span>
-      <span
-        className="px-1.5 py-0.5 rounded-md"
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.65rem",
-          fontWeight: 600,
-          color: cfg.color,
-          background: cfg.bg,
-          border: `1px solid ${cfg.border}`,
-          letterSpacing: "0.03em",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {cfg.label}
-      </span>
-    </div>
-  );
-}
-
-function GroupCard({ group }: { group: SkillGroup }) {
-  return (
-    <div
-      className="rounded-2xl p-6 h-full"
-      style={{
-        background: "var(--card)",
-        border: "1px solid var(--border)",
-      }}
-    >
-      <p
-        className="mb-1"
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "1rem",
-          fontWeight: 700,
-          color: "var(--foreground)",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {group.category}
-      </p>
-      <p
-        className="mb-5"
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.78rem",
-          color: "var(--muted-foreground)",
-        }}
-      >
-        {group.description}
-      </p>
-      <div className="flex flex-col gap-2">
-        {group.skills.map((s) => (
-          <SkillChip key={s.name} skill={s} />
-        ))}
-      </div>
-    </div>
-  );
-}
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
 export function Skills() {
   return (
     <section
       id="skills"
-      className="py-28 px-6"
-      style={{ background: "var(--secondary)" }}
+      style={{
+        padding: `clamp(6rem, 12vh, 11rem) ${sectionPad}`,
+        background: "rgba(26, 23, 20, 0.03)",
+      }}
     >
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <p
-            className="mb-4"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.72rem",
-              fontWeight: 600,
-              color: "#a78bfa",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
-          >
-            {skillsSection.eyebrow}
-          </p>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <h2
-            className="leading-tight"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(2rem, 4vw, 2.8rem)",
-              fontWeight: 800,
-              color: "var(--foreground)",
-              letterSpacing: "-0.035em",
-            }}
-          >
-            {skillsSection.heading}
-          </h2>
-          {/* Legend */}
-          <div className="flex items-center gap-4 shrink-0 pb-1">
-            {(Object.entries(levelConfig) as [Proficiency, typeof levelConfig[Proficiency]][]).map(
-              ([key, cfg]) => (
-                <div key={key} className="flex items-center gap-1.5">
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: cfg.color }}
-                  />
-                  <span
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "0.72rem",
-                      color: "var(--muted-foreground)",
-                    }}
-                  >
-                    {cfg.label}
-                  </span>
-                </div>
-              )
-            )}
-          </div>
-          </div>
-        </Reveal>
+      <Reveal>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.5625rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            marginBottom: "clamp(2.5rem, 5vh, 4rem)",
+          }}
+        >
+          03 · {skillsSection.eyebrow}
+        </div>
 
-        <Reveal className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" delay={0.1}>
-          {skillsSection.groups.map((g) => (
-            <GroupCard key={g.category} group={g} />
+        <h2
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 300,
+            letterSpacing: "-0.03em",
+            lineHeight: 1,
+            color: "var(--foreground)",
+            margin: "0 0 clamp(3rem, 6vh, 5rem) 0",
+            maxWidth: "16ch",
+          }}
+        >
+          {skillsSection.heading}
+        </h2>
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <div
+          className="skills-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+            gap: "clamp(2.5rem, 4vw, 4rem)",
+          }}
+        >
+          {skillsSection.groups.map((group) => (
+            <div key={group.category}>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.5rem",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--accent)",
+                  marginBottom: "1rem",
+                }}
+              >
+                {group.category}
+              </div>
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.8125rem",
+                  fontWeight: 300,
+                  lineHeight: 1.55,
+                  color: "var(--muted-foreground)",
+                  margin: "0 0 1.5rem 0",
+                  minHeight: "2.4em",
+                }}
+              >
+                {group.description}
+              </p>
+
+              <div>
+                {group.skills.map((skill) => {
+                  const { Icon } = getSkillIcon(skill.icon);
+                  const level = skill.level as Proficiency;
+                  return (
+                    <div
+                      key={skill.name}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.75rem",
+                        padding: "0.7rem 0",
+                        borderTop: "1px solid var(--border)",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "var(--muted-foreground)",
+                          display: "inline-flex",
+                          opacity: 0.8,
+                        }}
+                      >
+                        <Icon size={14} />
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-body)",
+                          fontSize: "0.875rem",
+                          fontWeight: 400,
+                          color: "var(--foreground)",
+                          flex: 1,
+                        }}
+                      >
+                        {skill.name}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.4375rem",
+                          letterSpacing: "0.16em",
+                          textTransform: "uppercase",
+                          color:
+                            level === "comfortable"
+                              ? "var(--accent)"
+                              : "var(--muted-foreground)",
+                          opacity: level === "exploring" ? 0.6 : 1,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {levelLabel[level]}
+                      </span>
+                    </div>
+                  );
+                })}
+                <div style={{ borderTop: "1px solid var(--border)" }} />
+              </div>
+            </div>
           ))}
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -3,213 +3,173 @@ import type { TimelineEntry } from "../../content/types";
 import { Reveal } from "../lib/Reveal";
 
 const { experience } = content;
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
-const typeConfig: Record<
-  TimelineEntry["type"],
-  { label: string; color: string; bg: string; border: string; filled: boolean }
-> = {
-  work: {
-    label: "Experience",
-    color: "#a78bfa",
-    bg: "rgba(124,58,237,0.1)",
-    border: "rgba(124,58,237,0.2)",
-    filled: true,
-  },
-  edu: {
-    label: "Education",
-    color: "#67e8f9",
-    bg: "rgba(103,232,249,0.08)",
-    border: "rgba(103,232,249,0.2)",
-    filled: false,
-  },
-  cert: {
-    label: "Certification",
-    color: "#fbbf24",
-    bg: "rgba(251,191,36,0.08)",
-    border: "rgba(251,191,36,0.2)",
-    filled: false,
-  },
+const typeLabel: Record<TimelineEntry["type"], string> = {
+  work: "Experience",
+  edu: "Education",
+  cert: "Certification",
 };
-
-function TimelineItem({
-  item,
-  last,
-}: {
-  item: TimelineEntry;
-  last: boolean;
-}) {
-  const cfg = typeConfig[item.type];
-
-  return (
-    <div className="flex gap-5 sm:gap-7">
-      {/* Dot + line */}
-      <div className="flex flex-col items-center">
-        <div
-          className="w-3 h-3 rounded-full shrink-0 mt-1.5 transition-all duration-300"
-          style={{
-            background: cfg.filled
-              ? "linear-gradient(135deg, #7c3aed, #9d4edd)"
-              : "transparent",
-            border: cfg.filled ? "none" : `2px solid ${cfg.color}`,
-            boxShadow: cfg.filled ? "0 0 12px rgba(124,58,237,0.4)" : "none",
-          }}
-        />
-        {!last && (
-          <div
-            className="w-px flex-1 mt-2"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(124,58,237,0.2) 0%, rgba(124,58,237,0.04) 100%)",
-            }}
-          />
-        )}
-      </div>
-
-      {/* Content */}
-      <div className="pb-10">
-        {/* Meta row */}
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span
-            className="px-2 py-0.5 rounded-full"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.68rem",
-              fontWeight: 600,
-              color: cfg.color,
-              background: cfg.bg,
-              border: `1px solid ${cfg.border}`,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-            }}
-          >
-            {cfg.label}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.78rem",
-              color: "var(--muted-foreground)",
-            }}
-          >
-            {item.period}
-          </span>
-        </div>
-
-        {/* Role + org */}
-        <h3
-          className="mb-0.5"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "1.05rem",
-            fontWeight: 700,
-            color: "var(--foreground)",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {item.role}
-        </h3>
-        <p
-          className="mb-1"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.85rem",
-            fontWeight: 500,
-            color: "var(--muted-foreground)",
-          }}
-        >
-          {item.org}
-          {item.location ? ` · ${item.location}` : ""}
-        </p>
-
-        {/* Highlight pill */}
-        {item.highlight && (
-          <span
-            className="inline-block mb-4 px-2.5 py-0.5 rounded-full"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.72rem",
-              fontWeight: 500,
-              color: "#c4b5fd",
-              background: "rgba(124,58,237,0.08)",
-              border: "1px solid rgba(124,58,237,0.15)",
-            }}
-          >
-            {item.highlight}
-          </span>
-        )}
-
-        {/* Bullets */}
-        <ul className="space-y-2">
-          {item.bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <div
-                className="mt-2 w-1 h-1 rounded-full shrink-0"
-                style={{ background: "rgba(167,139,250,0.5)" }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.875rem",
-                  color: "var(--muted-foreground)",
-                  lineHeight: 1.7,
-                }}
-              >
-                {b}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
 
 export function Experience() {
   return (
     <section
       id="experience"
-      className="py-28 px-6"
-      style={{ background: "var(--background)" }}
+      style={{
+        padding: `clamp(6rem, 12vh, 11rem) ${sectionPad}`,
+        background: "var(--background)",
+      }}
     >
-      <div className="max-w-6xl mx-auto">
-        <Reveal>
-          <p
-            className="mb-4"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.72rem",
-              fontWeight: 600,
-              color: "#a78bfa",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
-          >
-            {experience.eyebrow}
-          </p>
-          <h2
-            className="mb-14 leading-tight"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(2rem, 4vw, 2.8rem)",
-              fontWeight: 800,
-              color: "var(--foreground)",
-              letterSpacing: "-0.035em",
-            }}
-          >
-            {experience.heading}
-          </h2>
-        </Reveal>
+      <Reveal>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.5625rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            marginBottom: "clamp(2.5rem, 5vh, 4rem)",
+          }}
+        >
+          04 · {experience.eyebrow}
+        </div>
 
-        <Reveal className="max-w-2xl" delay={0.1}>
+        <h2
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 300,
+            letterSpacing: "-0.03em",
+            lineHeight: 1,
+            color: "var(--foreground)",
+            margin: "0 0 clamp(3rem, 6vh, 5rem) 0",
+          }}
+        >
+          {experience.heading}
+        </h2>
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <div>
           {experience.timeline.map((item, i) => (
-            <TimelineItem
+            <div
               key={`${item.org}-${i}`}
-              item={item}
-              last={i === experience.timeline.length - 1}
-            />
+              className="exp-row"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "var(--exp-cols, 1fr)",
+                gap: "0.5rem clamp(2rem, 5vw, 4rem)",
+                borderTop: "1px solid var(--border)",
+                padding: "clamp(1.75rem, 3.5vh, 2.75rem) 0",
+                borderBottom:
+                  i === experience.timeline.length - 1
+                    ? "1px solid var(--border)"
+                    : "none",
+              }}
+            >
+              {/* Left meta column */}
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.5rem",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "var(--accent)",
+                    marginBottom: "0.6rem",
+                  }}
+                >
+                  {typeLabel[item.type]}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.625rem",
+                    letterSpacing: "0.1em",
+                    color: "var(--muted-foreground)",
+                  }}
+                >
+                  {item.period}
+                </div>
+              </div>
+
+              {/* Right content */}
+              <div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(1.25rem, 2.6vw, 1.75rem)",
+                    fontWeight: 300,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.1,
+                    color: "var(--foreground)",
+                    margin: "0 0 0.35rem 0",
+                  }}
+                >
+                  {item.role}
+                </h3>
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.5625rem",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--muted-foreground)",
+                    marginBottom: item.highlight ? "1rem" : "1.25rem",
+                  }}
+                >
+                  {item.org}
+                  {item.location ? ` · ${item.location}` : ""}
+                </div>
+
+                {item.highlight && (
+                  <p
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontStyle: "italic",
+                      fontSize: "1rem",
+                      fontWeight: 300,
+                      color: "var(--foreground)",
+                      margin: "0 0 1.25rem 0",
+                    }}
+                  >
+                    {item.highlight}
+                  </p>
+                )}
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {item.bullets.map((b, bi) => (
+                    <li
+                      key={bi}
+                      style={{
+                        display: "flex",
+                        gap: "0.75rem",
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.875rem",
+                        fontWeight: 300,
+                        lineHeight: 1.65,
+                        color: "var(--muted-foreground)",
+                        padding: "0.25rem 0",
+                      }}
+                    >
+                      <span style={{ color: "var(--accent)", lineHeight: 1.65 }}>
+                        ·
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           ))}
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .exp-row { --exp-cols: minmax(160px, 220px) 1fr; }
+        }
+      `}</style>
     </section>
   );
 }

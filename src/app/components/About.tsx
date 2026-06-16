@@ -1,170 +1,185 @@
 import { content } from "../../content";
 import { getIcon } from "../../content/icons";
 import { Reveal } from "../lib/Reveal";
-import { hover } from "../lib/hover";
 
 const { about } = content;
-
-function PurpleCard({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl p-5 transition-all duration-250 ${className}`}
-      style={{
-        background: "var(--card)",
-        border: "1px solid var(--border)",
-      }}
-      {...hover(
-        {
-          borderColor: "rgba(124,58,237,0.35)",
-          boxShadow: "0 0 24px rgba(124,58,237,0.1)",
-        },
-        { borderColor: "var(--border)", boxShadow: "none" }
-      )}
-    >
-      {children}
-    </div>
-  );
-}
+const sectionPad = "clamp(1.5rem, 4vw, 3.5rem)";
 
 export function About() {
   return (
     <section
       id="about"
-      className="py-28 px-6"
-      style={{ background: "var(--background)" }}
+      style={{
+        padding: `clamp(6rem, 12vh, 11rem) ${sectionPad}`,
+        background: "var(--background)",
+        position: "relative",
+      }}
     >
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-16 items-start">
-          {/* Text */}
-          <Reveal>
-            <p
-              className="mb-4"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.72rem",
-                fontWeight: 600,
-                color: "#a78bfa",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-              }}
-            >
-              {about.eyebrow}
-            </p>
-            <h2
-              className="mb-7 leading-tight"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(2rem, 4vw, 2.8rem)",
-                fontWeight: 800,
-                color: "var(--foreground)",
-                letterSpacing: "-0.035em",
-                lineHeight: 1.15,
-              }}
-            >
-              {about.headingLine1}
-              <br />
-              <span
+      <Reveal>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.5625rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+            marginBottom: "clamp(3rem, 6vh, 5rem)",
+          }}
+        >
+          01 · {about.eyebrow}
+        </div>
+      </Reveal>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "var(--about-cols, 1fr)",
+          gap: "clamp(3rem, 6vw, 6rem)",
+          alignItems: "start",
+        }}
+        className="about-grid"
+      >
+        {/* Left: heading + prose + pills */}
+        <Reveal>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 4.5vw, 3.25rem)",
+              fontWeight: 300,
+              letterSpacing: "-0.028em",
+              lineHeight: 1.08,
+              color: "var(--foreground)",
+              margin: "0 0 2.5rem 0",
+            }}
+          >
+            {about.headingLine1}
+            <br />
+            <em style={{ fontStyle: "italic", fontWeight: 200 }}>
+              {about.headingAccent}
+            </em>
+          </h2>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.25rem",
+              maxWidth: "560px",
+            }}
+          >
+            {about.paragraphs.map((paragraph, i) => (
+              <p
+                key={i}
                 style={{
-                  background:
-                    "linear-gradient(90deg, #a78bfa 0%, #c084fc 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.9375rem",
+                  fontWeight: 300,
+                  lineHeight: 1.72,
+                  color: "var(--muted-foreground)",
+                  margin: 0,
                 }}
               >
-                {about.headingAccent}
-              </span>
-            </h2>
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
-            <div
-              className="space-y-4"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.95rem",
-                color: "var(--muted-foreground)",
-                lineHeight: 1.85,
-              }}
-            >
-              {about.paragraphs.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
-
-            {/* Location + status pills */}
-            <div className="mt-8 flex flex-wrap gap-2">
-              {about.pills.map((pill) => {
-                const Icon = getIcon(pill.icon);
-                return (
-                  <span
-                    key={pill.label}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "0.78rem",
-                      fontWeight: 500,
-                      color: "#c4b5fd",
-                      background: "rgba(124,58,237,0.1)",
-                      border: "1px solid rgba(124,58,237,0.2)",
-                    }}
-                  >
-                    <Icon size={13} />
-                    {pill.label}
-                  </span>
-                );
-              })}
-            </div>
-          </Reveal>
-
-          {/* Trait cards */}
-          <Reveal className="grid grid-cols-2 gap-3.5" delay={0.1}>
-            {about.traits.map((trait) => {
-              const Icon = getIcon(trait.icon);
+          {/* Pills */}
+          <div
+            style={{
+              marginTop: "2.5rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.75rem",
+            }}
+          >
+            {about.pills.map((pill) => {
+              const Icon = getIcon(pill.icon);
               return (
-              <PurpleCard key={trait.title}>
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center mb-4"
+                <span
+                  key={pill.label}
                   style={{
-                    background:
-                      "linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(157,78,221,0.12) 100%)",
-                    border: "1px solid rgba(124,58,237,0.2)",
-                    color: "#a78bfa",
-                  }}
-                >
-                  <Icon size={17} />
-                </div>
-                <p
-                  className="mb-2"
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "0.92rem",
-                    fontWeight: 700,
-                    color: "var(--foreground)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  {trait.title}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "0.8rem",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.5625rem",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
                     color: "var(--muted-foreground)",
-                    lineHeight: 1.6,
+                    border: "1px solid var(--border)",
+                    borderRadius: "9999px",
+                    padding: "0.45rem 0.85rem",
                   }}
                 >
-                  {trait.desc}
-                </p>
-              </PurpleCard>
+                  <Icon size={11} />
+                  {pill.label}
+                </span>
               );
             })}
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
+
+        {/* Right: trait list with hairlines, offset down */}
+        <Reveal delay={0.12} className="about-traits">
+          {about.traits.map((trait, i) => {
+            const Icon = getIcon(trait.icon);
+            return (
+              <div
+                key={trait.title}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr",
+                  gap: "1.25rem",
+                  padding: "1.75rem 0",
+                  borderTop: "1px solid var(--border)",
+                  borderBottom:
+                    i === about.traits.length - 1
+                      ? "1px solid var(--border)"
+                      : "none",
+                }}
+              >
+                <div style={{ color: "var(--accent)", paddingTop: "0.2rem" }}>
+                  <Icon size={18} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.25rem",
+                      fontWeight: 300,
+                      letterSpacing: "-0.02em",
+                      color: "var(--foreground)",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    {trait.title}
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-body)",
+                      fontSize: "0.85rem",
+                      fontWeight: 300,
+                      lineHeight: 1.6,
+                      color: "var(--muted-foreground)",
+                      margin: 0,
+                    }}
+                  >
+                    {trait.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </Reveal>
       </div>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .about-grid { --about-cols: 1fr 1fr; }
+          .about-traits { margin-top: 4.5rem; }
+        }
+      `}</style>
     </section>
   );
 }
