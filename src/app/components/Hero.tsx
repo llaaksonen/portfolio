@@ -182,23 +182,6 @@ export function Hero() {
         ))}
       </motion.div>
 
-      {/* Scroll cue */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2.25rem",
-          left: sectionPad,
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.5rem",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "var(--muted-foreground)",
-          opacity: 0.6,
-        }}
-      >
-        Scroll ↓
-      </div>
-
       {/* Hairline rule */}
       <div
         style={{
